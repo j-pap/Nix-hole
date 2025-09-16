@@ -1,0 +1,12 @@
+keys:
+  - &host_pihole1 age1hw0e0kwqxqyy6ys4xtwx9kf90lmfye0nx92kzchsfxzy9w9g0fkqqqjnqx
+  - &host_fw13 age1v7vle8u0qwje9f083y0d3u4neufqxtd7zpcqwtdvqklenjhv94esgx35pc
+  - &host_t1 age1zdzhpka4nt6vswjsc8hny2hasv3m7avncd3udsd8srvekjs9f4ksw2yc89
+
+creation_rules:
+  - path_regex: secrets.nix$
+    key_groups:
+    - age:
+      - *host_pihole1
+      - *host_fw13
+      - *host_t1
