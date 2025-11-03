@@ -31,6 +31,7 @@
       eth = "end0";
       ip = secrets.host.ip;
       sm = secrets.host.subnet;
+      dg = secrets.host.gateway;
     };
     network = {
       cidr = secrets.network.cidr;
@@ -207,7 +208,7 @@
     ];
 
     defaultGateway = {
-      address = network.dg;
+      address = host.dg;
       interface = host.eth;
     };
 
