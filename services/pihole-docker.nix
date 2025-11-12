@@ -61,11 +61,9 @@ in
         environment = {
           PIHOLE_UID = "1001"; # Nix UID
           PIHOLE_GID = "100";  # Nix GID
-          FTLCONF_dns_bogusPriv = "true";       # All reverse lookups for private IP ranges are not forwarded upstream - Default is true
-          FTLCONF_dns_cache_size = "0";         # DNS server cache size - Default is 10000
+          FTLCONF_dns_cache_size = "0";         # Use Unbound's caching - Default is 10000
           FTLCONF_dns_domain = "home.arpa";     # Default is 'lan'
           FTLCONF_dns_domainNeeded = "true";    # Never forward non-FQDN A/AAAA queries to upstream nameservers - Default is false
-          FTLCONF_dns_expandHosts = "true";     # Domain is appended to host's hostname - Default is false
           FTLCONF_dns_ignoreLocalhost = "true"; # Hide queries made by localhost - Default is false
           FTLCONF_dns_interface = host.eth;     # Network interface to use
           FTLCONF_dns_listeningMode = "ALL";    # LOCAL | SINGLE | BIND | ALL | NONE - Default is local
