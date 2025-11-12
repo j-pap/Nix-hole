@@ -46,6 +46,7 @@
     vrrp = {
       addr = secrets.vrrp.addr;
       pass = secrets.vrrp.pass;
+      backup.ip = secrets.vrrp.backup.ip;
     };
     webServer.ip = secrets.web_server.ip;
   };
