@@ -59,31 +59,40 @@ in
         };
 
         environment = {
-          PIHOLE_UID = "1001"; # Nix UID
-          PIHOLE_GID = "100";  # Nix GID
-          FTLCONF_dns_cache_size = "0";         # Use Unbound's caching - Default is 10000
-          FTLCONF_dns_domain = "home.arpa";     # Default is 'lan'
-          FTLCONF_dns_domainNeeded = "true";    # Never forward non-FQDN A/AAAA queries to upstream nameservers - Default is false
-          FTLCONF_dns_ignoreLocalhost = "true"; # Hide queries made by localhost - Default is false
-          FTLCONF_dns_interface = host.eth;     # Network interface to use
-          FTLCONF_dns_listeningMode = "ALL";    # LOCAL | SINGLE | BIND | ALL | NONE - Default is local
-          FTLCONF_dns_piholePTR = "HOSTNAME";   # PI.HOLE | HOSTNAME | HOSTNAMEFQDN | NONE - Default is PI.HOLE
+          PIHOLE_UID = "1001";  # Nix UID
+          PIHOLE_GID = "100";   # Nix GID
+
+          FTLCONF_dns_cache_size = "0";           # Use Unbound's caching - Default is 10000
+          FTLCONF_dns_domain = domain;            # Default is 'lan'
+          FTLCONF_dns_domainNeeded = "true";      # Never forward non-FQDN A/AAAA queries to upstream nameservers - Default is false
+          FTLCONF_dns_ignoreLocalhost = "true";   # Hide queries made by localhost - Default is false
+          FTLCONF_dns_interface = host.eth;       # Network interface to use
+          FTLCONF_dns_listeningMode = "ALL";      # LOCAL | SINGLE | BIND | ALL | NONE - Default is local
+          FTLCONF_dns_piholePTR = "HOSTNAME";     # PI.HOLE | HOSTNAME | HOSTNAMEFQDN | NONE - Default is PI.HOLE
 
           # Conditional forwarding - "<enabled>,<ip-address[/prefix-len]>,<server[#port]>[,<domain>]" - separated by semi-colons
-          FTLCONF_dns_revServers = "true,${network.cidr},${network.dg},home.arpa";
+          FTLCONF_dns_revServers = ''
+            true,${network.cidr},${network.dg},home.arpa
+          '';
+
           # Upstream DNS servers to forward requests to - separated by semi-colons
-          FTLCONF_dns_upstreams = "127.0.0.1#${unbound.port}";
+          FTLCONF_dns_upstreams = ''
+            127.0.0.1#${unbound.port}
+          '';
 
-          FTLCONF_misc_dnsmasq_lines = "address=/${domain}/${webServer.ip}"; # Split DNS
+          # Split DNS
+          FTLCONF_misc_dnsmasq_lines = ''
+            address=/${domain}/${webServer.ip}
+          '';
 
-          FTLCONF_ntp_ipv4_active = "false"; # IPv4 NTP service - Default is true
-          FTLCONF_ntp_ipv6_active = "false"; # IPv6 NTP service - Default is true
+          FTLCONF_ntp_ipv4_active = "false";  # IPv4 NTP service - Default is true
+          FTLCONF_ntp_ipv6_active = "false";  # IPv6 NTP service - Default is true
 
-          FTLCONF_webserver_api_pwhash = pihole.pwhash; # Hashed web interface password
-          FTLCONF_webserver_api_totp_secret = pihole.totp; # 2FA TOTP secret
-          FTLCONF_webserver_api_app_pwhash = pihole.apphash; # Application password
-          FTLCONF_webserver_domain = "pihole.${domain}"; # On which domain is the web interface served - Default is 'pi.hole'
-          FTLCONF_webserver_port = "80o,443os"; # Web interface ports - Defaults are '80o,443os,[::]:80o,[::]:443os'
+          FTLCONF_webserver_api_pwhash = pihole.pwhash;       # Hashed web interface password
+          FTLCONF_webserver_api_totp_secret = pihole.totp;    # 2FA TOTP secret
+          FTLCONF_webserver_api_app_pwhash = pihole.apphash;  # Application password
+          FTLCONF_webserver_domain = "pihole.${domain}";      # On which domain is the web interface served - Default is 'pi.hole'
+          FTLCONF_webserver_port = "80o,443os";               # Web interface ports - Defaults are '80o,443os,[::]:80o,[::]:443os'
         };
 
         networks = [ "host" ];
