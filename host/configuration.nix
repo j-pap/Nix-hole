@@ -42,7 +42,10 @@
       totp = secrets.pihole.totp;
       apphash = secrets.pihole.apphash;
     };
-    user.name = "pi";
+    user = {
+      name = "pi";
+      pass = secrets.user.pass;
+    };
     vrrp = {
       addr = secrets.vrrp.addr;
       pass = secrets.vrrp.pass;
@@ -64,7 +67,8 @@
       kernelModules = [ ];
     };
 
-    kernelPackages = pkgs.linuxPackages_6_12; # '_rpi4' cannot be used with 'sd-image-aarch64.nix'
+    # Override nixos-hw/rpi4 w/ LTS - '_rpi4' cannot be used with 'sd-image-aarch64.nix'
+    kernelPackages = pkgs.linuxPackages;
     kernelModules = [ ];
     extraModulePackages = [ ];
 
@@ -360,7 +364,7 @@
     users = {
       ${user.name} = {
         description = "Raspberry Pi";
-        hashedPassword = secrets.user.pass;
+        hashedPassword = user.pass;
         isNormalUser = true;
         extraGroups = [
           "gpio"
