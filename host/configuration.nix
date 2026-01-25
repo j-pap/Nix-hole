@@ -13,7 +13,8 @@
 {
   imports = [
     (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
-  ] ++ (import ../services);
+  ]
+  ++ (import ../services);
 
   ###########################
   ##      CUSTOM ARGS      ##
@@ -21,7 +22,7 @@
   _module.args = {
     secrets = (
       assert lib.assertMsg (builtins ? extraBuiltins.readSops)
-        "The extraBuiltin 'readSops' could not be read. Verify that 'nix.settings.extra-builtins-file' is defined correctly. This is most likely a 'pkgs.nix-plugins' issue.";
+        "The extraBuiltin 'readSops' could not be read. Verify that 'nix.settings.plugin-files' & 'nix.settings.extra-builtins-file' are defined correctly.";
       builtins.extraBuiltins.readSops ../secrets/secrets.nix
     );
 
@@ -263,14 +264,22 @@
     #config.allowUnfree = true;
     hostPlatform = lib.mkDefault "aarch64-linux";
     overlays = [
-      (final: prev: {
-        nix-plugins = prev.nix-plugins.overrideAttrs (old: {
-          buildInputs = [
-            final.boost
-            final.nix
-          ];
-        });
-      })
+      (
+        final: prev:
+        let
+          getNixVer =
+            v:
+            final.lib.concatStringsSep "_" [
+              "${final.lib.versions.major v}"
+              "${final.lib.versions.minor v}"
+            ];
+        in
+        {
+          nix-plugins = prev.nix-plugins.override {
+            nixComponents = final.nixVersions."nixComponents_${getNixVer final.nix.version}";
+          };
+        }
+      )
     ];
   };
 
@@ -334,7 +343,8 @@
       enable = true;
       openFirewall = false;
       knownHosts = {
-        "FW13".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQQSTCKMqWNCTIFsND7Da2EUTjYktXX8xNl7Yf4X4At";
+        "FW13".publicKey =
+          "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIGQQSTCKMqWNCTIFsND7Da2EUTjYktXX8xNl7Yf4X4At";
         "T1".publicKey = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPiwqkVHyuJgJAdln6Wg7NXip2awN38aXddPydQhTw18";
       };
       settings = {
