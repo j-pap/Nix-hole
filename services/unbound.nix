@@ -20,9 +20,9 @@
         name = ".";
         forward-addr = [
           # DoT - stubby
-          "127.0.0.1@${config.pihole.stubby.port}"
+          "127.0.0.1@${config.nix-hole.stubby.port}"
           # DoH - cloudflared
-          "127.0.0.1@${config.pihole.cloudflared.port}"
+          "127.0.0.1@${config.nix-hole.cloudflared.port}"
         ];
       };
 

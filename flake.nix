@@ -16,12 +16,18 @@
       nixosConfigurations.pihole1 = nixpkgs.lib.nixosSystem {
         modules = [
           ./host/configuration.nix
+          self.nixosModules.nix-hole
           inputs.nixos-hardware.nixosModules.raspberry-pi-4
           inputs.sops-nix.nixosModules.sops
         ];
         specialArgs = {
           inherit inputs;
         };
+      };
+
+      nixosModules = {
+        default = self.nixosModules.nix-hole;
+        nix-hole = ./services;
       };
     };
 }

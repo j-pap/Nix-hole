@@ -4,10 +4,10 @@
   ...
 }:
 let
-  cfg = config.pihole.stubby;
+  cfg = config.nix-hole.stubby;
 in
 {
-  options.pihole.stubby.port = lib.mkOption {
+  options.nix-hole.stubby.port = lib.mkOption {
     description = "Listen port for Stubby";
     default = "5153";
     example = "5153";

@@ -13,8 +13,7 @@
 {
   imports = [
     (modulesPath + "/installer/sd-card/sd-image-aarch64.nix")
-  ]
-  ++ (import ../services);
+  ];
 
   ###########################
   ##      CUSTOM ARGS      ##
@@ -103,8 +102,10 @@
     shellAliases = {
       ".." = "cd ..";
       ".df" = "cd /etc/nixos";
-      "ll" = "eza --long --all --header --links --group --modified --git --icons";
-      "tree" = "eza --tree --all";
+      "ll" = "eza --long --header --links --group --modified --git --icons";
+      "lla" = "eza --long --all --header --links --group --modified --git --icons";
+      "lt" = "eza --tree";
+      "lta" = "eza --tree --all";
       "rpi-fwflash" = "BOOTFS=/boot/firmware FIRMWARE_RELEASE_STATUS=stable rpi-eeprom-update -d -a";
     };
 
@@ -137,7 +138,7 @@
         whois
 
         # Nix
-        nixfmt-rfc-style
+        nixfmt
         nix-tree
         ;
     };
@@ -325,7 +326,7 @@
   ##       SECURITY        ##
   ###########################
   security.sudo = {
-    extraConfig = ''Defaults lecture = never'';
+    extraConfig = "Defaults lecture = never";
     wheelNeedsPassword = true;
   };
 

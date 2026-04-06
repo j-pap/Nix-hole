@@ -29,10 +29,10 @@ in
 
       stateDirectory = "/var/lib/pihole";
       logDirectory = "/var/log/pihole";
-      openFirewallDNS = true; # Open port 53
+      openFirewallDNS = true;       # Open port 53
       openFirewallWebserver = true; # Open ports in 'settings.webserver.port'
-      privacyLevel = 0; # 0 - full | 1 - hide domains | 2 - hide domains/clients | 3 - anonymous
-      #useDnsmasqConfig = true; # Import options defined in services.dnsmasq.settings via misc.dnsmasq_lines in Pi-hole’s config
+      privacyLevel = 0;             # 0 - full | 1 - hide domains | 2 - hide domains/clients | 3 - anonymous
+      #useDnsmasqConfig = true;     # Import options defined in services.dnsmasq.settings via misc.dnsmasq_lines in Pi-hole’s config
 
       queryLogDeleter = {
         enable = true;
@@ -95,12 +95,12 @@ in
 
         webserver = {
           #domain = ""; # Set via services.pihole-web.hostName
-          #port = ""; # Set via services.pihole-web.ports
+          #port = "";   # Set via services.pihole-web.ports
 
           api = {
             # https://github.com/NixOS/nixpkgs/issues/435150
-            #pwhash = pihole.pwhash; # Hashed web interface/API password
-            #totp_secret = pihole.totp; # 2FA TOTP secret
+            #pwhash = pihole.pwhash;      # Hashed web interface/API password
+            #totp_secret = pihole.totp;   # 2FA TOTP secret
             #app_pwhash = pihole.apphash; # Hashed application password
           };
 
