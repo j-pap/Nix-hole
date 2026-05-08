@@ -95,8 +95,8 @@ in
             FTLCONF_dns_domain_name = domain; # Default is 'lan'
             FTLCONF_dns_cache_size = "0"; # Use Unbound's caching - Default is '10000'
 
-            FTLCONF_ntp_ipv4_active = "${cfg.ntp.enable}"; # IPv4 NTP service - Default is 'true'
-            FTLCONF_ntp_ipv6_active = "${cfg.ntp.enable}"; # IPv6 NTP service - Default is 'true'
+            FTLCONF_ntp_ipv4_active = "${lib.boolToString cfg.ntp.enable}"; # IPv4 NTP service - Default is 'true'
+            FTLCONF_ntp_ipv6_active = "${lib.boolToString cfg.ntp.enable}"; # IPv6 NTP service - Default is 'true'
 
             FTLCONF_webserver_domain = "pihole.${domain}"; # On which domain is the web interface served - Default is 'pi.hole'
             FTLCONF_webserver_port = "80o,443os"; # Web interface ports - Defaults are '80o,443os,[::]:80o,[::]:443os'
@@ -113,7 +113,7 @@ in
               '';
           }
           // lib.optionalAttrs (cfg.dhcp.enable) {
-            FTLCONF_dhcp_active = "${cfg.dhcp.enable}"; # DHCP service
+            FTLCONF_dhcp_active = "${lib.boolToString cfg.dhcp.enable}"; # DHCP service
           };
 
           networks = [ "host" ];
