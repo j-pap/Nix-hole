@@ -211,7 +211,13 @@
         "flakes"
         "nix-command"
       ];
-      extra-builtins-file = [ "${inputs.self}/secrets/extra-builtins.nix" ];
+      extra-builtins-file = [
+        (pkgs.writeText "extra-builtins.nix" ''
+          { exec, ... }: {
+            readSops = name: exec [ "sops" "-d" name ];
+          }
+        '')
+      ];
       max-jobs = 4;
       plugin-files = [ "${pkgs.nix-plugins}/lib/nix/plugins" ];
       substituters = [ ];
