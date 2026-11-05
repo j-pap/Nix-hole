@@ -117,6 +117,7 @@ in
               pwhash = pihole.pwhash; # Hashed web interface/API password
               totp_secret = pihole.totp; # 2FA TOTP secret
               app_pwhash = pihole.apphash; # Hashed application password
+              app_sudo = true; # Required for Nebula-Sync
             };
           };
 

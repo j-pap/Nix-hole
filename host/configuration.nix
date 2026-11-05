@@ -211,9 +211,7 @@
         "flakes"
         "nix-command"
       ];
-      extra-builtins-file = [ "${inputs.self}/secrets/extra-builtins.nix" ];
       max-jobs = 4;
-      plugin-files = [ "${pkgs.nix-plugins}/lib/nix/plugins" ];
       substituters = [ ];
       trusted-public-keys = [ ];
       trusted-users = [
@@ -281,10 +279,10 @@
   ###########################
   services = {
     #Log2RAM
-    journald.extraConfig = ''
-      Storage=volatile
-      SystemMaxUse=1G
-    '';
+    journald.settings.Journal = {
+      Storage = "volatile";
+      SystemMaxUse = "1G";
+    };
 
     openssh = {
       enable = true;

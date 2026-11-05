@@ -104,6 +104,7 @@ in
             FTLCONF_webserver_api_pwhash = pihole.pwhash; # Hashed web interface password
             FTLCONF_webserver_api_totp_secret = pihole.totp; # 2FA TOTP secret
             FTLCONF_webserver_api_app_pwhash = pihole.apphash; # Application password
+            FTLCONF_webserver_api_app_sudo = "true"; # Required for Nebula-Sync
 
             FTLCONF_misc_dnsmasq_lines =
               # Split DNS

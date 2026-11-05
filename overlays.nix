@@ -1,5 +1,4 @@
-final: prev:
-{
+final: prev: {
   nix-plugins =
     let
       getNixVer =
@@ -9,42 +8,42 @@ final: prev:
           "${final.lib.versions.minor v}"
         ];
     in
-      prev.nix-plugins.override {
-        nixComponents = final.nixVersions."nixComponents_${getNixVer final.nix.version}";
-      };
+    prev.nix-plugins.override {
+      nixComponents = final.nixVersions."nixComponents_${getNixVer final.nix.version}";
+    };
 
-  pihole = prev.pihole.unresholved.overrideAttrs (
-    finalAttrs: oldAttrs:
-    {
-      version = "6.4.2";
-      src = oldAttrs.src.overrideAttrs {
-        tag = "v${finalAttrs.version}";
-        hash = "sha256-A34LLXI+hmDNXN4MoLLlC9tW3xx+v/1La/qzFSDW0xQ=";
-      };
-      meta = oldAttrs.meta // {
-        changelog = "https://github.com/pi-hole/pi-hole/releases/tag/v${finalAttrs.version}";
-      };
-    }
-  );
-
+  # 6.5 errors when building - defaults to 6.4.2
   /*
-    # Does not currently build due to upstream gcc error
-    pihole-ftl = prev.pihole-ftl.overrideAttrs (
-      oldAttrs: {
-        version = "6.6.1";
-        src = oldAttrs.src.overrideAttrs {
-          hash = "sha256-UMLTym9LSx8rlWKkFtHGtSEM0Stdpkfkz/7Iy/05jf8=";
+    pihole =
+      let
+        version = "6.5";
+        pkgOverride = prev.pihole.unresholved.overrideAttrs (oldAttrs: {
+          version = version;
+          src = oldAttrs.src.overrideAttrs {
+          hash = "sha256-pjfMA8TOuvr3YdBjGS6WITy+gVfN0XoaVOV5cJl8Ni4=";
+          };
+        });
+      in
+      prev.pihole.overrideAttrs (oldAttrs: {
+        version = version;
+        src = pkgOverride;
+        passthru = (oldAttrs.passthru or { }) // {
+          unresholved = pkgOverride;
         };
-      }
-    );
+      });
   */
 
-  pihole-web = prev.pihole-web.overrideAttrs (
-    oldAttrs: {
-      version = "6.5";
-      src = oldAttrs.src.overrideAttrs {
-        hash = "sha256-ozMqgxyYBDNeYGnZIhql7hnF8D/PwqAe9ypUkkUfKBc=";
-      };
-    }
-  );
+  pihole-ftl = prev.pihole-ftl.overrideAttrs (oldAttrs: {
+    version = "6.8";
+    src = oldAttrs.src.overrideAttrs {
+      hash = "sha256-KQiQ4qsUSvHGVEGAzNeCG4hcDVRDtJhW8+vNYN75LAY=";
+    };
+  });
+
+  pihole-web = prev.pihole-web.overrideAttrs (oldAttrs: {
+    version = "6.6.1";
+    src = oldAttrs.src.overrideAttrs {
+      hash = "sha256-z1SAQr3ZMiN2A3p0iYYa9AgNqydIZhxCqRK66nw2xYA=";
+    };
+  });
 }
